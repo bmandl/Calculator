@@ -7,108 +7,148 @@ const buttons = [
     {
         id : 'zero',
         symbol: '0',
-        class : 'button'
+        class : 'number'
     },
     {
         id : 'one',
         symbol: '1',
-        class : 'button'
+        class : 'number'
     },
     {
         id : 'two',
         symbol: '2',
-        class : 'button'
+        class : 'number'
     },
     {
         id : 'three',
         symbol: '3',
-        class : 'button'
+        class : 'number'
     },
     {
         id : 'four',
         symbol: '4',
-        class : 'button'
+        class : 'number'
     },
     {
         id : 'five',
         symbol: '5',
-        class : 'button'
+        class : 'number'
     },
     {
         id : 'six',
         symbol: '6',
-        class : 'button'
+        class : 'number'
     },
     {
         id : 'seven',
         symbol: '7',
-        class : 'button'
+        class : 'number'
     },
     {
         id : 'eight',
         symbol: '8',
-        class : 'button'
+        class : 'number'
     },
     {
         id : 'nine',
         symbol: '9',
-        class : 'button'
+        class : 'number'
     },
     {
         id : 'decimal',
         symbol: '.',
-        class : 'button'
+        class : 'number'
     },
     {
         id : 'add',
         symbol: '+',
-        class : 'button math'
+        class : 'math'
     },
     {
         id : 'subtract',
         symbol: '-',
-        class : 'button math'
+        class : 'math'
     },
     {
         id : 'multiply',
         symbol: 'x',
-        class : 'button math'
+        class : 'math'
     },
     {
         id : 'divide',
         symbol: '/',
-        class : 'button math'
+        class : 'math'
     },
     {
         id : 'clear',
         symbol: 'C',
-        class : 'button util'
+        class : 'util'
     },
     {
         id : 'equals',
         symbol : '=',
-        class : 'button util'
+        class : 'util'
     }
 ];
 
+class Display extends React.Component {
 
+    render(){
+        return(
+            <div id="display">
+                <div className="formula-screen">{this.props.formula}</div>
+                <div className="value-screen">{this.props.value}</div>
+            </div>
+        );
+    }
+}
 
-class App extends React.Component {
+class Keyboard extends React.Component {
 
     render() {
-        let btns = buttons.map((button,i,buttonsArr) => {
+        let btns = this.props.buttons.map((button,i,buttonsArr) => {
+            let operation = buttonsArr[i].class == 'number' ? this.props.numbers : 
+                        buttonsArr[i].class == 'math' ? this.props.math : this.props.utils;
+
             return (
-                <div id={buttonsArr[i].id} className={buttonsArr[i].class}>
+                <button id={buttonsArr[i].id} value={buttonsArr[i].symbol} className={buttonsArr[i].class} onClick={operation}>
                     {buttonsArr[i].symbol}
-                </div>
+                </button>
             );
         })
         return(
-            <div className="container">
+            <div className="keyboard">                
                 {btns}
             </div>
         );
     }
+}
+
+
+class App extends React.Component {
+    constructor(props){
+        super(props);
+
+        this.state = (
+            {
+                displayValue: '0',
+                prevVal: '0',
+                formula: '',
+                currentSign: 'pos',
+                lastClicked: ''
+            }
+        );
+    }
+
+    render(){
+        return(
+            <div className="container">
+                <Display formula={this.state.formula} value={this.state.displayValue}/>
+                <Keyboard buttons={buttons}/>
+            </div>
+        );
+    }
+    
 }
 
 export default App;
