@@ -2,6 +2,7 @@ body {
     background: black;
 }
 
+
 .container {
     border: 3px solid orange;
     border-radius: 5px;
@@ -10,4 +11,100 @@ body {
     width:400px;
     height:700px;
     background: gray;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 5fr;
+}
+
+.formula-screen {
+    font-size: 1em;
+}
+
+.value-screen {
+    font-size: 2em;
+}
+
+.screen {
+    color: white;
+    text-align: right;
+    grid-column: 1 / 5;
+    grid-row: 1 / 2;
+    background: black;
+}
+
+.keyboard {
+    width: 400px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-areas: 
+        
+        "ac ac divide multipl"
+        "seven eight nine subtrac"
+        "four five six add"
+        "one two three equals"
+        "null null dec equals";
+}
+
+#clear {
+    grid-area: ac;
+}
+
+#divide {
+    grid-area: divide;
+}
+
+#multiply {
+    grid-area: multipl;
+}
+
+#subtract {
+    grid-area: subtrac;
+}
+
+#one {
+    grid-area: one;
+}
+
+#two {
+    grid-area: two;
+}
+
+#three {
+    grid-area: three;
+}
+
+#four {
+    grid-area: four;
+}
+
+#five {
+    grid-area: five;
+}
+
+#six {
+    grid-area: six;
+}
+
+#seven {
+    grid-area: seven;
+}
+
+#eight {
+    grid-area: eight;
+}
+
+#nine {
+    grid-area: nine;
+}
+
+#zero {
+    grid-area: null;
+}
+
+#decimal {
+    grid-area: dec;
+}
+
+#equals {
+    grid-area: equals;
 }
