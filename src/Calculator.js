@@ -99,7 +99,7 @@ class Display extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="screen">
                 <div id="formula" className="formula-screen">{this.props.formula}</div>
                 <div id="display" className="value-screen">{this.props.value}</div>
             </div>
@@ -150,7 +150,7 @@ class App extends React.Component {
         this.evaluate = this.evaluate.bind(this);
         this.decimal = this.decimal.bind(this);
     }
-
+    
     handleNumbers(e) {
         const btn = e.target.value;
         if (btn != '.') {
@@ -222,10 +222,11 @@ class App extends React.Component {
                 displayValue:
                     endsWithNumber.test(state.displayValue) || isOperator.test(state.displayValue) ? btn : state.displayValue,
                 formulaDisplay:
-                    state.formulaDisplay === '' && btn != '-' ? 
-                    '0' + btn : endsWithNumber.test(state.formulaDisplay) /*|| (btn === '-' && /[x/]$/.test(state.formulaDisplay))*/ ? 
-                    state.formulaDisplay + btn : endsWithOperator.test(state.formulaDisplay) ? 
-                    state.formulaDisplay.slice(0, -1) + btn : state.formulaDisplay
+                    state.formulaDisplay === '' && btn != '-' ?
+                        '0' + btn : endsWithNumber.test(state.formulaDisplay) || (btn === '-' && /[x/]$/.test(state.formulaDisplay)) ?
+                            state.formulaDisplay + btn : endsWithOperator.test(state.formulaDisplay) && endsWithOperator.test(state.formulaDisplay.slice(0, -1)) && btn != '-' ?
+                                state.formulaDisplay.slice(0, -2) + btn : endsWithOperator.test(state.formulaDisplay) ?
+                                    state.formulaDisplay.slice(0, -1) + btn : state.formulaDisplay
             }
         )
         );
@@ -254,9 +255,9 @@ class App extends React.Component {
     }
 
     evaluate() {
-        let expression = endsWithOperator.test(this.state.formulaDisplay) || /[.]$/.test(this.state.formulaDisplay) ? 
-        this.state.formulaDisplay.slice(0, -1) : this.state.evaluated === true ? this.state.displayValue : this.state.formulaDisplay;
-        expression = expression.replace(/x/g,'*');
+        let expression = endsWithOperator.test(this.state.formulaDisplay) || /[.]$/.test(this.state.formulaDisplay) ?
+            this.state.formulaDisplay.slice(0, -1) : this.state.evaluated === true ? this.state.displayValue : this.state.formulaDisplay;
+        expression = expression.replace(/x/g, '*');
         let result = eval(expression);
 
         this.setState(state => (
